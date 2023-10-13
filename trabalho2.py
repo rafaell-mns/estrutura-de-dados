@@ -30,17 +30,17 @@ class Pilha:
         self.ini = novo
         self.n += 1
 
-    # Remover de determinado valor
+    # Remover determinado valor
     def pop(self, valor):
         if not self.ini:
             return
-        if self.ini.info == valor:
+        if self.ini.info.upper() == valor.upper():
             self.ini = self.ini.prox
             self.n -= 1
             return
         atual = self.ini
         while atual.prox:
-            if atual.prox.info == valor:
+            if atual.prox.info.upper() == valor:
                 atual.prox = atual.prox.info
                 self.n -= 1
                 return
@@ -72,7 +72,7 @@ class Pilha:
     def estaRepetido(self, valor):
         atual = self.ini
         while atual is not None:
-            if (valor == atual.info):
+            if (valor.upper() == atual.info.upper()):
                 return 1
             else:
                 atual = atual.prox
@@ -88,6 +88,7 @@ class Pilha:
                 p.InserirInicio(val)
             else:
                 p.inserirNoFim(val)
+            messagebox.showinfo("Sucesso", "Adicionado com sucesso")
 
 
 # Menu com as opcoes para inserir, remover e mostrar os elementos da Pilha
@@ -107,20 +108,16 @@ if __name__ == '__main__':
         elif op == 3:
             val = simpledialog.askstring("Entrada", "Digite um nome")
             if p.estaRepetido(val):
-                messagebox.showinfo(
-                    "Resultado", "Esse nome está na lista.", icon=messagebox.INFO)
+                messagebox.showinfo("Resultado", "Esse nome está na lista.", icon=messagebox.INFO)
             else:
-                messagebox.showinfo(
-                    "Resultado", "Esse nome não está na lista.", icon=messagebox.INFO)
+                messagebox.showinfo("Resultado", "Esse nome não está na lista.", icon=messagebox.INFO)
         elif op == 4:
-            val = simpledialog.askstring(
-                "Remoção", "Digite o nome para remover")
-            if p.estaRepetido(val):
-                p.pop(val)
-                messagebox.showinfo("Nome removido", val)
+            val = simpledialog.askstring("Remoção", "Digite o nome para remover")
+            if not p.estaRepetido(val):
+                messagebox.showinfo("Erro", "Esse nome não foi adicionado à lista. Tente novamente.", icon=messagebox.INFO)
             else:
-                messagebox.showinfo(
-                    "Erro", "Esse nome não foi adicionado à lista. Tente novamente.", icon=messagebox.INFO)
+                p.pop(val.upper())
+                messagebox.showinfo("Sucesso", f'O nome "{val}" foi removido com sucesso')
         elif op == 5:
             messagebox.showinfo("Tamanho", str(p.size()))
         elif op == 6:
