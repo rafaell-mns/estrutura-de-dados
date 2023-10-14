@@ -23,9 +23,8 @@ class Pilha:
     def size(self):  # Retorna o tamanho
         return self.n
 
-    # Insercao no inicio da lista
-    def InserirInicio(self, val):
-        novo = Node(val)  # Cria um novo nó
+    def InserirInicio(self, nome):
+        novo = Node(nome)  # Cria um novo nó
         novo.prox = self.ini
         self.ini = novo
         self.n += 1
@@ -54,7 +53,6 @@ class Pilha:
             no = no.prox
         return msg
 
-    # Inserir no fim da lista
     def inserirNoFim(self, valor):
         novo = Node(valor)
 
@@ -68,7 +66,6 @@ class Pilha:
             atual.prox = novo
             self.n += 1
 
-    # Função para ver se está repetido
     def estaRepetido(self, valor):
         atual = self.ini
         while atual is not None:
@@ -78,18 +75,34 @@ class Pilha:
                 atual = atual.prox
         return 0
 
-    # Função para verifica se está repetido e adiciona o nome se não
-    def tentaInserir(self, valor, op):
-        if p.estaRepetido(val):
-            messagebox.showinfo(
-                "Erro", "Esse nome já está na lista. Tente outro.", icon=messagebox.INFO)
+    # Função que adiciona um nome se verificar que este não está repetido
+    def tentaInserir(self, op):
+        nome = simpledialog.askstring("Entrada", "Digite um nome")
+        if p.estaRepetido(nome):
+            messagebox.showinfo("Erro", "Esse nome já está na lista. Tente outro.", icon=messagebox.ERROR)
+        elif not nome.strip:
+            messagebox.showinfo("Erro", "Nome em branco. Insira um nome válido.", icon=messagebox.ERROR)
         else:
             if op == 1:
-                p.InserirInicio(val)
+                p.InserirInicio(nome)
             else:
-                p.inserirNoFim(val)
+                p.inserirNoFim(nome)
             messagebox.showinfo("Sucesso", "Adicionado com sucesso")
 
+    def buscaNome(self):
+        nome = simpledialog.askstring("Entrada", "Digite um nome")
+        if p.estaRepetido(nome):
+            messagebox.showinfo("Resultado", "Esse nome está na lista.", icon=messagebox.INFO)
+        else:
+            messagebox.showinfo("Resultado", "Esse nome não está na lista.", icon=messagebox.INFO)
+
+    def removeNome(self):
+        nome = simpledialog.askstring("Remoção", "Digite o nome para remover")
+        if not p.estaRepetido(nome):
+            messagebox.showinfo("Erro", "Esse nome não foi adicionado à lista. Tente novamente.", icon=messagebox.ERROR)
+        else:
+            p.pop(nome.upper())
+            messagebox.showinfo("Sucesso", f'O nome "{nome}" foi removido com sucesso')
 
 # Menu com as opcoes para inserir, remover e mostrar os elementos da Pilha
 if __name__ == '__main__':
@@ -100,24 +113,13 @@ if __name__ == '__main__':
     while (op != 7):
         op = simpledialog.askinteger("Entrada de valor", menu)
         if op == 1:
-            val = simpledialog.askstring("Entrada", "Digite um nome")
-            p.tentaInserir(val, 1)
+            p.tentaInserir(1)
         elif op == 2:
-            val = simpledialog.askstring("Entrada", "Digite um nome")
-            p.tentaInserir(val, 2)
+            p.tentaInserir(2)
         elif op == 3:
-            val = simpledialog.askstring("Entrada", "Digite um nome")
-            if p.estaRepetido(val):
-                messagebox.showinfo("Resultado", "Esse nome está na lista.", icon=messagebox.INFO)
-            else:
-                messagebox.showinfo("Resultado", "Esse nome não está na lista.", icon=messagebox.INFO)
+            p.buscaNome()
         elif op == 4:
-            val = simpledialog.askstring("Remoção", "Digite o nome para remover")
-            if not p.estaRepetido(val):
-                messagebox.showinfo("Erro", "Esse nome não foi adicionado à lista. Tente novamente.", icon=messagebox.INFO)
-            else:
-                p.pop(val.upper())
-                messagebox.showinfo("Sucesso", f'O nome "{val}" foi removido com sucesso')
+            p.removeNome()
         elif op == 5:
             messagebox.showinfo("Tamanho", str(p.size()))
         elif op == 6:
