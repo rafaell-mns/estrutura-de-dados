@@ -20,6 +20,7 @@ Este repositório contém as soluções desenvolvidas como trabalho em grupo par
 
 6. **Trabalho 6**
     - Implementação de uma árvore binária de busca
+    - Nesse trabalho eu não mexi no backend, fiquei responsável apenas pelo fronted
 
 7. **Trabalho final**
     - Analisar as classes prontas das collections em python
